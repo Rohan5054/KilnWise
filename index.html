@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KilnWise | An affordable firing coach for brick kilns</title>
+<meta name="theme-color" content="#1A0904">
+<meta property="og:type" content="website">
+<meta property="og:title" content="KilnWise | Firing smarter">
+<meta property="og:description" content="KilnWise is an affordable firing coach for coal-fired brick kilns: a probe reads the fire every two seconds and the operator gets one clear instruction. Recommended by Rajasthan's Minister for Public Health Engineering.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
+<meta name="description" content="KilnWise is an affordable firing coach for coal-fired brick kilns: a probe reads the fire every two seconds and the operator gets one clear instruction. Recommended by Rajasthan's Minister for Public Health Engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..800;1,14..32,400..600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;600&display=swap">
+<style>
+/* A kiln burns behind the page. Solid chapters slide over it like walls; three windows (the opening, the turn, the close) show it again, and the smoke thins as the story moves from problem to fix. */
+:root{
+  --kiln:#1A0904;      /* ground and sky */
+  --kiln-2:#241109;    /* raised surface */
+  --brick:#3E2617;     /* quiet fills, rails */
+  --ember:#E86A2A;     /* the one accent */
+  --ember-hi:#F27B3D;
+  --ember-ink:#A8410D; /* ember on sand, large text only */
+  --cream:#F6EBDD;     /* text */
+  --ash:#C2B09D;       /* secondary text */
+  --ash-2:#8F7C6B;     /* tertiary marks */
+  --sand:#E8D9BD;      /* the letter field */
+  --soot:#22100A;      /* text on light grounds */
+  --soot-2:#5A3A28;
+  --clean:#22A487;     /* chart: zigzag kilns */
+  --closed:#8C6E5C;    /* chart: closed or not reported */
+  --s-cool:#6B9AD0; --s-warm:#D29A3C; --s-band:#2FB083; --s-hot:#F07F3C; --s-over:#F0565B;
+  --f-display:"Anton","Arial Narrow","Helvetica Neue",sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-hi:"Noto Sans Devanagari","Kohinoor Devanagari","Nirmala UI",sans-serif;
+  --gut:clamp(16px,4vw,48px);
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --t-press:140ms; --t-hover:180ms;
+  color-scheme:dark;
+}
+html{background:var(--kiln);scroll-behavior:smooth;scrollbar-color:var(--brick) var(--kiln)}
+body{margin:0;background:var(--kiln);color:var(--cream);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;caret-color:var(--ember)}
+::selection{background:var(--ember);color:var(--soot)}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+img{display:block;max-width:100%;height:auto}
+figure{margin:0}
+a{color:inherit;text-underline-offset:.22em;text-decoration-thickness:.07em}
+p{margin:0}
+h1,h2,h3,h4{margin:0;font-weight:inherit}
+ol,ul{margin:0;padding:0;list-style:none}
+[lang="hi"]{font-family:var(--f-hi)}
+.wrap{box-sizing:border-box;width:100%;max-width:1240px;margin-inline:auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ember);color:var(--soot);padding:10px 14px;font-weight:600;z-index:40}
+.skip:focus{left:max(16px,env(safe-area-inset-left,0px));top:12px}
+section[id]{scroll-margin-top:72px}
+
+/* ---- the kiln behind the page ---- */
+.scene{position:fixed;left:0;right:0;top:0;height:100vh;height:100lvh;z-index:0;overflow:hidden;pointer-events:none;background:var(--kiln)}
+.kiln-art{position:absolute;bottom:0;width:max(125vw,1000px);height:auto;left:calc(65vw - .72 * max(125vw,1000px))}
+.kiln-art .glow{fill:var(--ember)}
+.smoke{position:absolute;inset:0;width:100%;height:100%}
+
+/* ---- header ---- */
+.top{position:sticky;top:0;z-index:30;background:var(--kiln);transition:background-color .35s ease}
+.js .top.at-top{background:transparent}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 28px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--f-display);font-size:27px;line-height:1}
+.brand svg{width:38px;height:38px;flex:none}
+.dot{color:var(--ember)}
+.bar nav{display:flex;flex-wrap:wrap;gap:6px 24px;font-size:15px;font-weight:500}
+.bar nav a{color:var(--ash);text-decoration:none;padding-block:6px;white-space:nowrap;transition:color var(--t-hover) ease}
+@media (hover:hover) and (pointer:fine){.bar nav a:hover{color:var(--cream)}}
+.progress{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px;height:5px}
+.progress i{background:var(--brick);transition:background-color .45s ease}
+.progress i.on{background:var(--ember)}
+
+/* ---- shared type ---- */
+main,.foot{position:relative;z-index:1}
+.solid{background:var(--kiln)}
+.sec{padding-block:clamp(88px,11vw,168px)}
+.h2{font-family:var(--f-display);font-size:clamp(44px,6.2vw,88px);line-height:.98;letter-spacing:.006em;text-wrap:balance;max-width:15ch}
+.statement{font-weight:550;font-size:clamp(21px,2.3vw,30px);line-height:1.3;letter-spacing:-.012em;max-width:30ch;text-wrap:pretty}
+.body{max-width:62ch}
+.fine{font-size:14px;line-height:1.5;color:var(--ash)}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;font-weight:650;line-height:1.3;color:var(--ash)}
+.status::before{content:"";flex:none;width:8px;height:8px;background:var(--ash-2)}
+.status.built{color:var(--cream)}
+.status.built::before{background:var(--ember)}
+.status.roadmap::before{background:transparent;box-shadow:inset 0 0 0 2px var(--ash-2)}
+.photo .ph{overflow:clip;background:var(--kiln-2);border-radius:2px}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo figcaption{margin-top:10px;font-size:14px;line-height:1.45;color:var(--ash)}
+
+/* ---- hero ---- */
+.hero{display:flex;align-items:flex-start;min-height:calc(100svh - 72px)}
+.hero-in{padding-block:clamp(36px,8vh,112px) 56px}
+.hero-title{font-family:var(--f-display);font-size:clamp(76px,11.5vw,168px);line-height:.9;letter-spacing:.004em;max-width:9ch}
+.lede{margin-top:28px;font-size:clamp(18px,1.6vw,21px);line-height:1.55;max-width:38ch}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;min-height:50px;padding-inline:24px;background:var(--ember);color:var(--soot);font-weight:650;font-size:16px;text-decoration:none;border-radius:2px;transition:transform var(--t-press) var(--ease-out),background-color var(--t-hover) ease}
+.btn:active{transform:scale(.97)}
+.link{font-weight:550;color:var(--cream);text-decoration-color:var(--ember);transition:color var(--t-hover) ease}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--ember-hi)}.link:hover{color:var(--ember-hi)}}
+.endorse{margin-top:34px;max-width:44ch;font-size:15px;line-height:1.5;color:var(--ash)}
+.endorse strong{color:var(--cream);font-weight:600}
+
+/* ---- problem ---- */
+.problem .statement{margin-top:32px}
+.lead-photo{margin-top:clamp(40px,5vw,64px)}
+.lead-photo .ph{aspect-ratio:16/9}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 32px;margin-top:clamp(64px,8vw,104px)}
+.stat b{display:block;font-weight:750;font-size:clamp(36px,4.4vw,60px);line-height:1;letter-spacing:-.03em}
+.stat span{display:block;margin-top:12px;font-size:15.5px;font-weight:500;line-height:1.4;color:var(--ash);max-width:20ch}
+.pair{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,80px);align-items:start;margin-top:clamp(64px,8vw,112px)}
+.pair-text{display:grid;gap:clamp(28px,3vw,40px);align-content:start}
+.photo-workers .ph{aspect-ratio:3/2}
+.pair h3,.points h3{font-size:20px;font-weight:650;letter-spacing:-.01em;margin-bottom:10px}
+.pair p+p{margin-top:12px}
+.pull{font-weight:650;color:var(--ember)}
+
+/* ---- Rajasthan chart ---- */
+.raj-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.raj-intro .statement{margin-top:28px}
+.raj-intro .body{margin-top:20px}
+.photo-raj .ph{aspect-ratio:3/2}
+.chart{position:relative;margin-top:clamp(40px,5vw,64px);background:var(--kiln-2);padding:clamp(20px,3vw,36px);border-radius:2px}
+.chart-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 28px;margin-bottom:26px}
+.chart-title{font-weight:650;font-size:18px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--ash)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:8px;vertical-align:-1px}
+.rows{display:grid;gap:14px}
+.row{display:grid;grid-template-columns:minmax(104px,160px) minmax(0,1fr);gap:16px;align-items:center}
+.row-name{font-size:15px;line-height:1.25}
+.row-name small{display:block;font-size:12.5px;color:var(--ash)}
+.row-bar{display:flex;align-items:center;gap:10px;min-width:0}
+.track{display:flex;gap:2px;height:24px;width:calc((100% - 56px) * var(--f));min-width:6px;transform-origin:left center}
+.seg{display:block;height:100%;min-width:3px;outline-offset:2px}
+.seg:last-child{border-radius:0 2px 2px 0}
+.seg.old{background:var(--ember)}
+.seg.new{background:var(--clean)}
+.seg.shut{background:var(--closed)}
+.total{font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
+.tip{position:absolute;left:0;top:0;z-index:3;pointer-events:none;background:var(--cream);color:var(--soot);font-size:14px;font-weight:550;line-height:1.35;padding:8px 11px;border-radius:2px;max-width:240px}
+.chart-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 32px;align-items:start;margin-top:26px}
+.tableview summary{cursor:pointer;font-size:14px;font-weight:600;text-decoration:underline;text-decoration-color:var(--ember);text-underline-offset:.22em}
+.tableview[open] summary{margin-bottom:14px}
+.tablewrap{overflow-x:auto}
+.data{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+.data th,.data td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--brick)}
+.data th{font-weight:600;color:var(--ash)}
+.data td+td,.data th+th{text-align:right}
+.belt{margin-top:clamp(28px,4vw,44px);font-size:clamp(19px,1.9vw,24px);font-weight:550;line-height:1.35;max-width:46ch}
+.belt b{color:var(--ember);font-weight:700}
+
+/* ---- the turn ---- */
+.interlude{min-height:175vh}
+.inter-in{position:sticky;top:20vh;padding-block:6vh}
+.inter-title{font-family:var(--f-display);font-size:clamp(50px,7vw,104px);line-height:.95;letter-spacing:.004em;max-width:16ch;text-wrap:balance}
+.inter-sub{margin-top:24px;max-width:40ch;font-size:clamp(18px,1.6vw,21px);line-height:1.55}
+
+/* ---- how it works ---- */
+.how-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:clamp(32px,5vw,80px);align-items:center}
+.how-head .statement{margin-top:28px}
+.photo-coal .ph{aspect-ratio:1600/1141}
+.loopwrap{margin-top:clamp(64px,8vw,104px)}
+.rail{height:4px;background:var(--brick);margin-bottom:28px}
+.rail i{display:block;height:100%;background:var(--ember);transform-origin:left center}
+.loop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,44px)}
+.loop b{display:block;font-family:var(--f-display);font-weight:400;font-size:clamp(32px,3.2vw,44px);line-height:1}
+.loop p{margin-top:10px;max-width:28ch}
+.gauge{margin-top:clamp(64px,8vw,112px);background:var(--kiln-2);padding:clamp(22px,3.5vw,48px);border-radius:2px}
+.gauge h3{font-size:20px;font-weight:650;margin-bottom:22px}
+.gauge-bar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;height:12px}
+.gauge-bar span:first-child{border-radius:2px 0 0 2px}
+.gauge-bar span:last-child{border-radius:0 2px 2px 0}
+.gauge-states{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:18px}
+.g-temp{font-size:13.5px;color:var(--ash);font-variant-numeric:tabular-nums}
+.g-word{display:flex;align-items:center;gap:8px;margin-top:6px;font-weight:700;font-size:17px;color:var(--s)}
+.g-word svg{width:20px;height:20px;flex:none}
+.g-word svg *{fill:none;stroke:currentColor;stroke-width:3}
+.g-word svg circle{fill:currentColor;stroke:none}
+.g-en{margin-top:8px;font-size:15px;line-height:1.45}
+.g-hi{margin-top:6px;font-size:14.5px;line-height:1.55;color:var(--ash)}
+.gauge figcaption{margin-top:24px;max-width:72ch}
+.steady{margin-top:clamp(64px,8vw,112px)}
+.steady h3{font-size:20px;font-weight:650;margin-bottom:6px}
+.key{display:flex;flex-wrap:wrap;gap:8px 20px;margin:14px 0 18px;font-size:14px;color:var(--ash)}
+.key i{display:inline-block;width:18px;height:3px;margin-right:8px;vertical-align:4px}
+.plot{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;max-width:880px}
+.yaxis{position:relative;min-width:3.4em;font-size:12.5px;line-height:1;color:var(--ash);font-variant-numeric:tabular-nums}
+.yaxis span{position:absolute;right:0;transform:translateY(-50%);white-space:nowrap}
+.plot svg{display:block;width:100%;height:clamp(170px,28vw,260px);overflow:visible}
+.xaxis{grid-column:2;position:relative;height:1.5em;margin-top:10px;font-size:12.5px;color:var(--ash)}
+.xaxis span{position:absolute;top:0;white-space:nowrap}
+.xaxis span:nth-child(1){left:0}
+.xaxis span:nth-child(2){left:45.556%;transform:translateX(-50%)}
+.xaxis span:nth-child(3){right:0}
+.steady .g{stroke:var(--brick);stroke-width:1;vector-effect:non-scaling-stroke}
+.steady .bandr{fill:var(--brick)}
+.steady .erratic{fill:none;stroke:#8C7A6B;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.steady .calm{fill:none;stroke:var(--ember);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.steady figcaption{margin-top:16px;max-width:72ch}
+
+/* ---- product ---- */
+.proto{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center;margin-top:clamp(40px,5vw,64px)}
+.proto-shots{display:grid;grid-template-columns:minmax(0,1.906fr) minmax(0,.6095fr);gap:12px;align-items:start}
+.proto-shots .bb .ph{aspect-ratio:404/212}
+.proto-shots .receipt .ph{aspect-ratio:320/525}
+.proto h3{font-size:22px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.unit-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:end;margin-top:clamp(96px,12vw,168px)}
+.unit-title{font-family:var(--f-display);font-size:clamp(42px,5.4vw,76px);line-height:1;letter-spacing:.006em}
+.unit{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(24px,4vw,64px);align-items:start;margin-top:clamp(36px,4.5vw,60px)}
+.unit-price{background:var(--kiln-2);padding:clamp(24px,3vw,40px);border-radius:2px}
+@media (min-width:881px){.unit-price{position:sticky;top:96px}}
+.up-big{font-family:var(--f-display);font-size:clamp(76px,8.4vw,116px);line-height:.88;letter-spacing:.004em;color:var(--ember)}
+.up-sub{margin-top:16px;font-size:17px;line-height:1.5;max-width:34ch}
+.up-math{margin:30px 0 0;display:grid}
+.up-math div{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding-block:12px;border-top:1px solid var(--brick);font-size:15px;line-height:1.4}
+.up-math dt{color:var(--ash)}
+.up-math dd{margin:0;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.up-math .sum dt{color:var(--cream);font-weight:600}
+.up-math .sum dd{color:var(--ember)}
+.unit-price .fine{margin-top:16px}
+.parts{width:100%;border-collapse:collapse}
+.parts th{padding:0 0 12px;text-align:left;font-size:13.5px;font-weight:600;color:var(--ash)}
+.parts td{padding:18px 0 20px;border-top:1px solid var(--brick);vertical-align:top}
+.parts th:last-child,.parts td:last-child{text-align:right}
+.parts td:last-child{padding-left:24px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.parts b{display:block;font-size:17px;font-weight:650;letter-spacing:-.005em}
+.parts .desc{display:block;margin-top:5px;font-size:15px;line-height:1.5;color:var(--ash);max-width:50ch}
+.parts .status{margin-top:10px}
+.parts-wrap>.fine{margin-top:14px}
+.compare{margin-top:clamp(48px,6vw,80px);max-width:880px}
+.compare figcaption{font-size:20px;font-weight:650;margin-bottom:20px}
+.cmp{display:grid;gap:22px}
+.cmp p{font-size:15px;line-height:1.45;color:var(--ash);margin-bottom:8px}
+.cmp-bar{display:flex;align-items:center;gap:12px}
+.cmp-bar i{display:block;height:22px;width:calc((100% - 84px) * var(--w));background:var(--ash-2);border-radius:0 2px 2px 0;transform-origin:left center}
+.cmp-bar i.kw{background:var(--ember)}
+.cmp-bar b{font-weight:750;font-size:20px;font-variant-numeric:tabular-nums}
+.install{margin-top:clamp(64px,8vw,112px)}
+.install h3{font-size:20px;font-weight:650;margin-bottom:22px}
+.install ol{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px clamp(18px,2.6vw,36px)}
+.install b{display:block;font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.05}
+.install p{margin-top:8px;font-size:15px;line-height:1.5;color:var(--ash)}
+
+/* ---- operator ---- */
+.screens{margin-top:clamp(40px,5vw,64px)}
+.screens .ph{max-width:1000px;background:transparent}
+.screens figcaption{margin-top:14px}
+.points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,56px) clamp(28px,5vw,80px);margin-top:clamp(48px,6vw,80px)}
+.points p{max-width:52ch}
+
+/* ---- letter ---- */
+.field-sand{background:var(--sand);color:var(--soot)}
+.letter{margin-top:clamp(32px,4vw,56px)}
+.letter blockquote{margin:0}
+.quote-lead{font-size:clamp(18px,1.7vw,22px);line-height:1.45;color:var(--soot-2);max-width:46ch}
+.quote{margin-top:14px;font-weight:650;font-size:clamp(26px,3vw,36px);line-height:1.18;letter-spacing:-.02em;max-width:25ch;text-wrap:balance}
+.letter figcaption{margin-top:24px;font-size:16px;line-height:1.45;max-width:46ch}
+.letter figcaption strong{font-weight:700}
+.sub{margin-top:clamp(56px,7vw,88px);font-size:20px;font-weight:700}
+.recog{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:22px clamp(28px,4vw,56px)}
+.recog li{position:relative;padding-left:22px;line-height:1.5}
+.recog li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:6px;background:var(--ember-ink)}
+
+/* ---- rollout ---- */
+.timeline{margin-top:clamp(48px,6vw,80px)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(24px,3.5vw,48px)}
+.steps h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.season{margin-top:clamp(48px,6vw,72px);max-width:60ch;font-size:clamp(18px,1.6vw,20px);line-height:1.5}
+
+/* ---- team ---- */
+.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(32px,4vw,64px);margin-top:clamp(40px,5vw,64px)}
+.member img{width:132px;height:132px;object-fit:cover;border-radius:2px;margin-bottom:20px}
+.member h3{font-family:var(--f-display);font-size:clamp(30px,2.9vw,40px);line-height:1}
+.member .role{margin-top:10px;color:var(--ember);font-weight:650;font-size:15.5px;line-height:1.4}
+.member p:last-child{margin-top:10px;max-width:36ch}
+.team-quote{margin-top:clamp(56px,7vw,96px);max-width:820px}
+.team-quote blockquote{margin:0;font-weight:600;font-size:clamp(22px,2.4vw,30px);line-height:1.25;letter-spacing:-.015em}
+.team-quote figcaption{margin-top:14px;color:var(--ash);font-size:15px}
+
+/* ---- footer and the close ---- */
+.foot-sources{padding-block:clamp(64px,8vw,104px)}
+.foot-sources h2{font-size:15px;font-weight:700}
+.foot-sources ul{margin-top:14px;padding-left:18px;list-style:disc;display:grid;gap:8px;max-width:880px;font-size:14px;line-height:1.5;color:var(--ash)}
+.foot-sources a{color:var(--cream);text-decoration-color:var(--ember)}
+.foot-sources .fine{margin-top:18px;max-width:880px}
+.finale{display:flex;align-items:flex-end;min-height:100svh;padding-bottom:env(safe-area-inset-bottom,0px)}
+.finale .wrap{padding-block:120px clamp(40px,9vh,96px)}
+.giant{font-family:var(--f-display);font-size:clamp(88px,20vw,290px);line-height:.84;letter-spacing:.002em}
+.foot-tag{margin-top:18px;font-style:italic;font-weight:500;font-size:clamp(20px,2vw,26px);color:var(--ember)}
+
+/* ---- responsive ---- */
+@media (max-width:1000px){
+  .loop,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .install ol{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gauge-states{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:880px){
+  .raj-intro,.how-head,.proto,.unit-head,.unit,.pair{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .team{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .points,.loop,.steps,.gauge-states{grid-template-columns:minmax(0,1fr)}
+  .install ol{grid-template-columns:minmax(0,1fr)}
+  .row{grid-template-columns:minmax(0,1fr);gap:6px}
+  .bar nav{gap:4px 16px;font-size:14.5px;flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .bar nav::-webkit-scrollbar{display:none}
+  .bar nav .nav-x{display:none}
+  .chart-foot{grid-template-columns:minmax(0,1fr)}
+  .data{font-size:13.5px}
+  .data th,.data td{padding:8px 6px}
+  .member img{width:112px;height:112px}
+}
+
+/* ---- motion: everything is readable at rest; scroll only adds the arrival ---- */
+@media (prefers-reduced-motion:no-preference){
+  .js [data-rise]{animation:load-rise .9s var(--ease-out) both;animation-delay:calc(var(--i,0) * 90ms + 140ms)}
+  @keyframes load-rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  .js .scene{animation:scene-in 1.6s var(--ease-out) both}
+  @keyframes scene-in{from{opacity:0}to{opacity:1}}
+  .kiln-art .glow{animation:flicker 2.4s steps(1,end) infinite}
+  .kiln-art .glow:nth-of-type(2n){animation-duration:3.1s;animation-delay:-.8s}
+  .kiln-art .glow:nth-of-type(3n){animation-duration:1.9s;animation-delay:-1.3s}
+  @keyframes flicker{0%{opacity:1}22%{opacity:.6}38%{opacity:.92}57%{opacity:.5}74%{opacity:.86}100%{opacity:1}}
+  @supports (animation-timeline:view()){
+    .reveal{animation:rise-in linear both;animation-timeline:view();animation-range:entry 5% entry 80%}
+    @keyframes rise-in{from{opacity:0;transform:translateY(56px)}to{opacity:1;transform:none}}
+    .stats .stat:nth-child(2){animation-range:entry 12% entry 88%}
+    .stats .stat:nth-child(3){animation-range:entry 19% entry 95%}
+    .stats .stat:nth-child(4){animation-range:entry 26% entry 100%}
+    .photo .ph{animation:unveil linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
+    @keyframes unveil{from{clip-path:inset(20% 0 20% 0)}to{clip-path:inset(0 0 0 0)}}
+    .track{animation:grow linear both;animation-timeline:view();animation-range:entry 40% cover 45%}
+    .rail i{animation:grow linear both;animation-timeline:view();animation-range:entry 100% cover 72%}
+    .cmp-bar i{animation:grow linear both;animation-timeline:view();animation-range:entry 60% cover 42%}
+    .gauge-bar span{animation:grow linear both;animation-timeline:view();animation-range:entry 30% cover 40%;transform-origin:left center}
+    @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  }
+}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="scene" aria-hidden="true">
+  <svg class="kiln-art" viewBox="0 0 1800 900" preserveAspectRatio="xMidYMax meet" focusable="false">
+    <defs>
+      <pattern id="bk" width="26" height="12" patternUnits="userSpaceOnUse"><rect width="26" height="12" fill="#0B0301"/><rect width="23" height="9.5" fill="#190804"/></pattern>
+    </defs>
+    <rect x="0" y="560" width="1800" height="100" fill="#1D0B05"/>
+    <rect x="0" y="660" width="1800" height="100" fill="#210D06"/>
+    <rect x="0" y="760" width="1800" height="100" fill="#251008"/>
+    <circle cx="1450" cy="200" r="100" fill="#8A3C14"/>
+    <circle id="sun-lit" cx="1450" cy="200" r="100" fill="#D56A2C" opacity="0"/>
+    <g fill="#150603">
+      <path d="M500 860 L508 847 L612 847 L620 860Z"/>
+      <polygon points="552,852 568,852 565,660 555,660"/>
+      <path d="M960 860 L968 845 L1060 845 L1068 860Z"/>
+      <polygon points="1003,852 1021,852 1017.5,640 1006.5,640"/>
+      <path d="M1590 860 L1596 849 L1690 849 L1696 860Z"/>
+      <polygon points="1636,852 1648,852 1646,700 1638,700"/>
+    </g>
+    <g fill="#0E0402">
+      <polygon points="1262,772 1330,772 1316,300 1276,300"/>
+      <rect x="1270" y="290" width="52" height="12"/>
+      <rect x="1270" y="430" width="52" height="7"/>
+      <rect x="1264.5" y="600" width="63" height="7"/>
+      <path d="M860 860 L884 772 L1708 772 L1736 860Z"/>
+    </g>
+    <polygon points="1318,772 1330,772 1323,610 1315,610" fill="#3A1508"/>
+    <path d="M884 772 L900 760 L1692 760 L1708 772Z" fill="#170704"/>
+    <g fill="#050100">
+      <ellipse cx="930" cy="766" rx="9" ry="3"/><ellipse cx="978" cy="766" rx="9" ry="3"/><ellipse cx="1026" cy="766" rx="9" ry="3"/><ellipse cx="1074" cy="766" rx="9" ry="3"/><ellipse cx="1122" cy="766" rx="9" ry="3"/><ellipse cx="1170" cy="766" rx="9" ry="3"/><ellipse cx="1218" cy="766" rx="9" ry="3"/><ellipse cx="1650" cy="766" rx="9" ry="3"/>
+    </g>
+    <g>
+      <ellipse class="glow" cx="1362" cy="766" rx="9" ry="3"/><ellipse class="glow" cx="1410" cy="766" rx="9" ry="3"/><ellipse class="glow" cx="1458" cy="766" rx="9" ry="3"/><ellipse class="glow" cx="1506" cy="766" rx="9" ry="3"/><ellipse class="glow" cx="1554" cy="766" rx="9" ry="3"/><ellipse class="glow" cx="1602" cy="766" rx="9" ry="3"/>
+    </g>
+    <g fill="#050100">
+      <path d="M920 860 v-30 a16 16 0 0 1 32 0 v30z"/><path d="M1060 860 v-30 a16 16 0 0 1 32 0 v30z"/><path d="M1200 860 v-30 a16 16 0 0 1 32 0 v30z"/><path d="M1660 860 v-30 a16 16 0 0 1 32 0 v30z"/>
+    </g>
+    <g fill="#5A1E08">
+      <path d="M1400 860 v-30 a16 16 0 0 1 32 0 v30z"/><path d="M1530 860 v-30 a16 16 0 0 1 32 0 v30z"/>
+    </g>
+    <rect x="620" y="812" width="200" height="48" fill="url(#bk)"/>
+    <rect x="650" y="794" width="140" height="18" fill="url(#bk)"/>
+    <rect x="1420" y="824" width="150" height="36" fill="url(#bk)"/>
+    <rect x="0" y="860" width="1800" height="40" fill="#0B0301"/>
+    <rect id="m0" x="1276" y="292" width="40" height="2" fill="none"/>
+  </svg>
+  <canvas class="smoke"></canvas>
+</div>
+
+<header class="top at-top" id="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="KilnWise, back to top">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M50 5 89 27.5v45L50 95 11 72.5v-45Z" fill="#1A0904" stroke="#F6EBDD" stroke-width="7" stroke-linejoin="round"/>
+        <path d="M50 17c6 7 9.5 11.5 9.5 17.5a9.5 9.5 0 0 1-19 0c0-3.6 1.7-6.6 3.6-8.6.6 2.6 2.2 4.3 4 4.6-.7-4.6.3-9.3 1.9-13.5Z" fill="#E86A2A"/>
+        <g fill="#E86A2A">
+          <rect x="26" y="49" width="14.5" height="7"/><rect x="42.75" y="49" width="14.5" height="7"/><rect x="59.5" y="49" width="14.5" height="7"/>
+          <rect x="30" y="58.5" width="19" height="7"/><rect x="51" y="58.5" width="19" height="7"/>
+          <rect x="35" y="68" width="14" height="7"/><rect x="51" y="68" width="14" height="7"/>
+          <path d="M41 77.5h18L50 86Z"/>
+        </g>
+      </svg>
+      <span>KilnWise<span class="dot">.</span></span>
+    </a>
+    <nav aria-label="Sections">
+      <a class="nav-x" href="#problem">Problem</a>
+      <a href="#rajasthan">Rajasthan</a>
+      <a href="#how">How it works</a>
+      <a href="#product">Product</a>
+      <a href="#team">Team</a>
+    </nav>
+  </div>
+  <div class="progress" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="h-hero">
+    <div class="wrap hero-in">
+      <h1 class="hero-title" id="h-hero" data-rise style="--i:0">Firing smarter<span class="dot">.</span></h1>
+      <p class="lede" data-rise style="--i:1">KilnWise is an affordable firing coach for coal-fired brick kilns. A probe reads the fire every two seconds, and the operator gets one clear instruction: feed now, hold, or keep it steady. No grid power, no internet, no engineer.</p>
+      <div class="actions" data-rise style="--i:2">
+        <a class="btn" href="#product">See the $200 field unit</a>
+        <a class="link" href="#letter">Read the Minister's letter</a>
+      </div>
+      <p class="endorse" data-rise style="--i:3">Recommended by <strong>Kanhaiya Lal</strong>, Minister for Public Health Engineering, Government of Rajasthan.</p>
+    </div>
+  </section>
+
+  <section class="solid sec problem" id="problem" aria-labelledby="h-problem">
+    <div class="wrap">
+      <h2 class="h2 reveal" id="h-problem">Nobody measures the fire</h2>
+      <p class="statement reveal">Kiln temperature is judged by eye. Every misjudgment wastes coal, weakens bricks and puts black carbon into the air the workers breathe.</p>
+      <figure class="photo lead-photo">
+        <div class="ph"><img src="img/smoke-sunrise.jpg" width="1600" height="900" alt="A brick-kiln chimney pours black smoke across the rising sun, above rooftops and hazy hills." loading="lazy"></div>
+        <figcaption>Smoke from a brick-kiln chimney at sunrise. Photo: Janak Bhatta, CC BY-SA 4.0.</figcaption>
+      </figure>
+      <div class="stats">
+        <p class="stat reveal"><b>150,000+</b><span>brick kilns across South Asia</span></p>
+        <p class="stat reveal"><b>16 million</b><span>kiln workers breathing the smoke</span></p>
+        <p class="stat reveal"><b>2 in 3</b><span>parts of kiln smoke are black carbon</span></p>
+        <p class="stat reveal"><b>115,000 t</b><span>of black carbon a year from South Asian kilns</span></p>
+      </div>
+      <div class="pair">
+        <figure class="photo photo-workers">
+          <div class="ph"><img src="img/kiln-workers.jpg" width="1600" height="1067" alt="Seen from above, workers inside a brick kiln stack rows of sun-dried bricks onto handcarts." loading="lazy"></div>
+          <figcaption>Workers stack sun-dried bricks before firing, at a kiln in Bangladesh. Photo: Sohelchy07, CC BY 4.0.</figcaption>
+        </figure>
+        <div class="pair-text">
+          <div class="reveal">
+            <h3>Smoke that carries</h3>
+            <p class="body">Black carbon is the second strongest driver of global warming, and it settles on Himalayan ice. Kilns fire right through the winter smog season, beside the homes and schools of the brick belt.</p>
+          </div>
+          <div class="reveal">
+            <h3>Rules without instruments</h3>
+            <p class="body">Zigzag conversion is already mandated in India, yet surveys in the NCR found only about one kiln in three converted, and close to 90% running without monitoring.</p>
+            <p class="body pull">Three decades of rules never reached the fire. A reading can.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="solid sec" id="rajasthan" aria-labelledby="h-raj">
+    <div class="wrap">
+      <div class="raj-intro">
+        <div>
+          <h2 class="h2 reveal" id="h-raj">The kiln belt around Jaipur</h2>
+          <p class="statement reveal">Rajasthan had 2,037 brick kilns on the official count in July 2023. 1,730 still fired the old fixed-chimney way.</p>
+          <p class="body reveal">Around Jaipur, almost none had converted to zigzag firing. Alwar, inside the National Capital Region and under its 2022 clean-kiln directions, converted 146 of its 149.</p>
+        </div>
+        <figure class="photo photo-raj">
+          <div class="ph"><img src="img/rajasthan-chimney.jpg" width="1600" height="1067" alt="A tall brick-kiln chimney rises over a dry yard and low brick walls under a cloudy sky." loading="lazy"></div>
+          <figcaption>A brick-kiln chimney beside NH 11, on the road to Shekhawati, Rajasthan. Photo: Daniel Villafruela, CC BY-SA 3.0.</figcaption>
+        </figure>
+      </div>
+
+      <figure class="chart reveal" aria-labelledby="chart-title">
+        <div class="chart-head">
+          <p class="chart-title" id="chart-title">Brick kilns by firing technology, July 2023</p>
+          <ul class="legend">
+            <li><i style="background:var(--ember)"></i>Fixed chimney (FCBTK)</li>
+            <li><i style="background:var(--clean)"></i>Zigzag</li>
+            <li><i style="background:var(--closed)"></i>Closed or not reported</li>
+          </ul>
+        </div>
+        <ul class="rows">
+          <li class="row"><span class="row-name">Jaipur North<small>Pollution board region</small></span><span class="row-bar"><span class="track" style="--f:1"><span role="img" class="seg old" style="flex:181" tabindex="0" data-tip="Jaipur North: 181 fixed-chimney kilns" aria-label="Jaipur North: 181 fixed-chimney kilns"></span><span role="img" class="seg new" style="flex:2" tabindex="0" data-tip="Jaipur North: 2 zigzag kilns" aria-label="Jaipur North: 2 zigzag kilns"></span></span><span class="total">183</span></span></li>
+          <li class="row"><span class="row-name">Alwar<small>Inside the NCR</small></span><span class="row-bar"><span class="track" style="--f:.8142"><span role="img" class="seg new" style="flex:146" tabindex="0" data-tip="Alwar: 146 zigzag kilns" aria-label="Alwar: 146 zigzag kilns"></span><span role="img" class="seg shut" style="flex:3" tabindex="0" data-tip="Alwar: 3 kilns closed or not reported" aria-label="Alwar: 3 kilns closed or not reported"></span></span><span class="total">149</span></span></li>
+          <li class="row"><span class="row-name">Jhunjhunu</span><span class="row-bar"><span class="track" style="--f:.6011"><span role="img" class="seg old" style="flex:110" tabindex="0" data-tip="Jhunjhunu: 110 fixed-chimney kilns" aria-label="Jhunjhunu: 110 fixed-chimney kilns"></span></span><span class="total">110</span></span></li>
+          <li class="row"><span class="row-name">Sikar</span><span class="row-bar"><span class="track" style="--f:.4973"><span role="img" class="seg old" style="flex:91" tabindex="0" data-tip="Sikar: 91 fixed-chimney kilns" aria-label="Sikar: 91 fixed-chimney kilns"></span></span><span class="total">91</span></span></li>
+          <li class="row"><span class="row-name">Ajmer</span><span class="row-bar"><span class="track" style="--f:.1311"><span role="img" class="seg old" style="flex:24" tabindex="0" data-tip="Ajmer: 24 fixed-chimney kilns" aria-label="Ajmer: 24 fixed-chimney kilns"></span></span><span class="total">24</span></span></li>
+          <li class="row"><span class="row-name">Sawai Madhopur</span><span class="row-bar"><span class="track" style="--f:.1257"><span role="img" class="seg old" style="flex:23" tabindex="0" data-tip="Sawai Madhopur: 23 fixed-chimney kilns" aria-label="Sawai Madhopur: 23 fixed-chimney kilns"></span></span><span class="total">23</span></span></li>
+          <li class="row"><span class="row-name">Tonk</span><span class="row-bar"><span class="track" style="--f:.0710"><span role="img" class="seg old" style="flex:12" tabindex="0" data-tip="Tonk: 12 fixed-chimney kilns" aria-label="Tonk: 12 fixed-chimney kilns"></span><span role="img" class="seg new" style="flex:1" tabindex="0" data-tip="Tonk: 1 zigzag kiln" aria-label="Tonk: 1 zigzag kiln"></span></span><span class="total">13</span></span></li>
+        </ul>
+        <div class="tip" id="chart-tip" aria-hidden="true" hidden></div>
+        <div class="chart-foot">
+          <p class="fine">Source: CPCB interim progress report to the National Green Tribunal, O.A. 67 of 2022, district table as on 17 July 2023. Alwar's switch followed the 2022 zigzag notification and NCR clean-fuel directions (Down To Earth, March 2024).</p>
+          <details class="tableview">
+            <summary>Table view</summary>
+            <div class="tablewrap">
+              <table class="data">
+                <thead><tr><th scope="col">District</th><th scope="col">Fixed chimney</th><th scope="col">Zigzag</th><th scope="col">Closed</th><th scope="col">Total</th></tr></thead>
+                <tbody>
+                  <tr><td>Jaipur North</td><td>181</td><td>2</td><td>0</td><td>183</td></tr>
+                  <tr><td>Alwar</td><td>0</td><td>146</td><td>3</td><td>149</td></tr>
+                  <tr><td>Jhunjhunu</td><td>110</td><td>0</td><td>0</td><td>110</td></tr>
+                  <tr><td>Sikar</td><td>91</td><td>0</td><td>0</td><td>91</td></tr>
+                  <tr><td>Ajmer</td><td>24</td><td>0</td><td>0</td><td>24</td></tr>
+                  <tr><td>Sawai Madhopur</td><td>23</td><td>0</td><td>0</td><td>23</td></tr>
+                  <tr><td>Tonk</td><td>12</td><td>1</td><td>0</td><td>13</td></tr>
+                  <tr><td>Rajasthan, all 24 districts</td><td>1,730</td><td>263</td><td>44</td><td>2,037</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </figure>
+
+      <p class="belt reveal">That is the belt KilnWise is built for: <b>441 fixed-chimney kilns</b> across Jaipur North and the five districts around it, still fired by eye.</p>
+    </div>
+  </section>
+
+  <section class="interlude" aria-labelledby="h-turn">
+    <div class="wrap inter-in">
+      <h2 class="inter-title" id="h-turn">Steady fire, thinner smoke.</h2>
+      <p class="inter-sub">Every misjudged charge wastes coal and sends black carbon up the stack. KilnWise is built to make every charge a steady one.</p>
+    </div>
+  </section>
+
+  <section class="solid sec" id="how" aria-labelledby="h-how">
+    <div class="wrap">
+      <div class="how-head">
+        <div>
+          <h2 class="h2 reveal" id="h-how">One loop, every two seconds</h2>
+          <p class="statement reveal">A K-type probe in a steel sleeve reads the firing zone through the kiln wall. A small computer beside it turns each reading into one instruction.</p>
+        </div>
+        <figure class="photo photo-coal">
+          <div class="ph"><img src="img/coal-labourer.jpg" width="1600" height="1141" alt="A kiln worker carries a basket of coal between heaps of coal and a low brick wall." loading="lazy"></div>
+          <figcaption>Every charge of coal is carried and fed by hand, at a kiln in Bangladesh. Photo: Kalbondi2k22, CC BY-SA 4.0.</figcaption>
+        </figure>
+      </div>
+
+      <div class="loopwrap">
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <ol class="loop">
+          <li class="reveal"><b>Smooth</b><p>Strip sensor noise so one flicker never moves the verdict.</p><span class="status built">Built and bench-validated</span></li>
+          <li class="reveal"><b>Recognise</b><p>Spot each coal charge by its temperature signature.</p><span class="status">Designed, trains on pilot data</span></li>
+          <li class="reveal"><b>Predict</b><p>Learn the kiln's own rhythm and project two to three minutes ahead.</p><span class="status">Designed, trains on pilot data</span></li>
+          <li class="reveal"><b>Act</b><p>Advise the operator, then trim the damper within hard limits.</p><span class="status built">Advice built, damper on the roadmap</span></li>
+        </ol>
+      </div>
+
+      <figure class="gauge reveal">
+        <h3>What the operator is told</h3>
+        <div class="gauge-bar" aria-hidden="true"><span style="background:var(--s-cool)"></span><span style="background:var(--s-warm)"></span><span style="background:var(--s-band)"></span><span style="background:var(--s-hot)"></span><span style="background:var(--s-over)"></span></div>
+        <ol class="gauge-states">
+          <li style="--s:var(--s-cool)"><p class="g-temp">Below 940 °C</p><p class="g-word"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5l7 7 7-7M5 12.5l7 7 7-7"/></svg>Too cool</p><p class="g-en">Feed now: add a fresh charge of coal.</p><p class="g-hi" lang="hi">बहुत ठंडा है। अभी कोयला डालें।</p></li>
+          <li style="--s:var(--s-warm)"><p class="g-temp">940–979 °C</p><p class="g-word"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5l7 7 7-7"/></svg>Warming</p><p class="g-en">Feed a little more.</p><p class="g-hi" lang="hi">गरम हो रहा है। थोड़ा और कोयला डालें।</p></li>
+          <li style="--s:var(--s-band)"><p class="g-temp">980–1,030 °C</p><p class="g-word"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/></svg>In the band</p><p class="g-en">Maintain: feed small amounts evenly.</p><p class="g-hi" lang="hi">ऐसे ही रखें: थोड़ा-थोड़ा, बराबर कोयला डालें।</p></li>
+          <li style="--s:var(--s-hot)"><p class="g-temp">1,031–1,070 °C</p><p class="g-word"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15.5l7-7 7 7"/></svg>Running hot</p><p class="g-en">Hold the next charge.</p><p class="g-hi" lang="hi">गरम है। अगला कोयला अभी न डालें।</p></li>
+          <li style="--s:var(--s-over)"><p class="g-temp">Above 1,070 °C</p><p class="g-word"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11.5l7-7 7 7M5 19.5l7-7 7 7"/></svg>Too hot</p><p class="g-en">Stop feeding until it settles.</p><p class="g-hi" lang="hi">बहुत गरम है। ठीक होने तक कोयला न डालें।</p></li>
+        </ol>
+        <figcaption class="fine">Illustrative bands. On a real kiln they are set during calibration. Colour, shape and word always appear together, so colour is never the only signal, and each instruction is spoken in the operator's own language.</figcaption>
+      </figure>
+
+      <figure class="steady reveal">
+        <h3>What the coach is steering toward</h3>
+        <div class="key">
+          <span><i style="background:var(--ember)"></i>Steady feeding</span>
+          <span><i style="background:#8C7A6B"></i>Erratic feeding</span>
+          <span><i style="background:var(--brick);height:10px;vertical-align:0"></i>Ideal band, 980–1,030 °C</span>
+        </div>
+        <div class="plot">
+          <div class="yaxis" aria-hidden="true"><span style="top:4.1667%">1,100°</span><span style="top:50%">1,000°</span><span style="top:95.833%">900°</span></div>
+          <svg viewBox="0 0 720 240" preserveAspectRatio="none" role="img" aria-label="Two temperature traces over twelve coal charges. Steady feeding stays inside the 980 to 1,030 degree band; erratic feeding swings between roughly 930 and 1,085 degrees.">
+            <rect class="bandr" x="0" y="87" width="720" height="55"/>
+            <line class="g" x1="0" y1="10" x2="720" y2="10"/>
+            <line class="g" x1="0" y1="120" x2="720" y2="120"/>
+            <line class="g" x1="0" y1="230" x2="720" y2="230"/>
+            <polyline class="erratic" points="8,54 72,175 136,26.5 200,197 264,43 328,186 392,37.5 456,169.5 520,48.5 584,191.5 648,32 712,180.5"/>
+            <polyline class="calm" points="8,114.5 72,125.5 136,106.8 200,120 264,111.2 328,122.2 392,109 456,117.8 520,113.4 584,121.1 648,110.1 712,116.7"/>
+          </svg>
+          <div class="xaxis" aria-hidden="true"><span>Charge 1</span><span>Charge 6</span><span>Charge 12</span></div>
+        </div>
+        <figcaption class="fine">Illustrative shapes, not measured data. A 276-kiln randomised trial in Bangladesh found that steady, even feeding cut energy use among adopting kilns by about 23% (Brooks et al., 2025). That result is external evidence, not a KilnWise measurement.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="solid sec" id="product" aria-labelledby="h-product">
+    <div class="wrap">
+      <h2 class="h2 reveal" id="h-product">From prototype to product</h2>
+      <div class="proto">
+        <div class="proto-shots">
+          <figure class="photo bb"><div class="ph"><img src="img/breadboard.jpg" width="404" height="212" alt="The breadboard prototype: an OLED screen reading ADD COAL, the MAX31855 amplifier and the ESP32 wired together."></div></figure>
+          <figure class="photo receipt"><div class="ph"><img src="img/receipt.jpg" width="320" height="525" alt="Receipt for the prototype's parts: ESP32, MAX31855, temperature probe, OLED screen, jumper wires, breadboard and data cable, totalling $19.80."></div></figure>
+        </div>
+        <div class="reveal">
+          <h3>It started on a breadboard</h3>
+          <p class="body">An ESP32, a MAX31855 amplifier, a K-type probe and an OLED screen: $19.80 in parts, receipted. On the bench, the probe tracked hot water from 28 °C to a 76.8 °C peak in about 80 seconds.</p>
+          <span class="status built">Built and bench-validated</span>
+        </div>
+      </div>
+
+      <div class="unit-head">
+        <h3 class="unit-title reveal">The field unit</h3>
+        <p class="statement reveal">The same core, hardened and given hands. It is designed for the kilns that already exist, and the first units go into the 2026–27 pilot.</p>
+      </div>
+
+      <div class="unit">
+        <aside class="unit-price reveal" aria-label="Price">
+          <p class="up-big">$200</p>
+          <p class="up-sub">installed, plus $69 a year for service visits, probe swaps, calibration and the owner's savings report.</p>
+          <dl class="up-math">
+            <div><dt>The unit, at scale</dt><dd>$70–90</dd></div>
+            <div><dt>Install, calibration, warranty, logistics</dt><dd>$10–17</dd></div>
+            <div class="sum"><dt>Delivered and installed</dt><dd>≈ $100</dd></div>
+          </dl>
+          <p class="fine">The margin funds a local technician network and spares, not grants.</p>
+        </aside>
+        <div class="parts-wrap reveal">
+          <table class="parts">
+            <thead><tr><th scope="col">Component</th><th scope="col">Cost</th></tr></thead>
+            <tbody>
+              <tr><td><b>Electronics core</b><span class="desc">The prototype's ESP32 board. It reads the fire every two seconds and shows one instruction.</span><span class="status built">Built and bench-validated</span></td><td>$19.80</td></tr>
+              <tr><td><b>High-temperature probe and thermowell</b><span class="desc">An industrial K-type probe in a steel sleeve, fitted through the firing-zone wall and hardened for 1,000 °C.</span><span class="status">Designed</span></td><td>$8</td></tr>
+              <tr><td><b>CO₂ and CO sensing</b><span class="desc">Scores how completely each charge of coal burns: the number institutions can audit.</span><span class="status">Designed</span></td><td>$19</td></tr>
+              <tr><td><b>Solar power and data link</b><span class="desc">No grid and no internet. The unit talks to the operator's phone over Bluetooth.</span><span class="status">Designed</span></td><td>$9</td></tr>
+              <tr><td><b>Fail-open actuator</b><span class="desc">Bolts to the damper the kiln already has. Lose power and it opens; the manual lever always wins.</span><span class="status roadmap">Designed, damper control on the roadmap</span></td><td>$30</td></tr>
+              <tr><td><b>Enclosure, custom PCB, assembly</b><span class="desc">The breadboard circuit, printed and sealed against heat and dust.</span><span class="status">Designed</span></td><td>$8</td></tr>
+            </tbody>
+          </table>
+          <p class="fine">The core is receipted. Everything else is priced from current Indian retail.</p>
+        </div>
+      </div>
+
+      <figure class="compare reveal">
+        <figcaption>Cost to improve one kiln</figcaption>
+        <div class="cmp">
+          <div><p>A human training programme, per kiln. It leaves when the trainer does.</p><div class="cmp-bar"><i style="--w:1"></i><b>$486</b></div></div>
+          <div><p>KilnWise, installed. It stays at the kiln.</p><div class="cmp-bar"><i class="kw" style="--w:.4115"></i><b>$200</b></div></div>
+        </div>
+      </figure>
+
+      <div class="install">
+        <h3 class="reveal">The half-day install</h3>
+        <ol>
+          <li class="reveal"><b>Sense</b><p>Mount the thermowell through the firing-zone wall, the sealed box outside, the solar panel above it.</p></li>
+          <li class="reveal"><b>Actuate</b><p>Bolt the fail-open actuator to the damper the kiln already has. The manual lever stays.</p></li>
+          <li class="reveal"><b>Calibrate</b><p>Check the reading against a reference, sweep the actuator, log both offsets.</p></li>
+          <li class="reveal"><b>Commission</b><p>Watch first, then advise. Closing the damper loop comes later, earned on that kiln.</p></li>
+          <li class="reveal"><b>Hand over</b><p>A ten-minute walkthrough in the operator's own language. The operator owns the data.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="solid sec" id="operator" aria-labelledby="h-op">
+    <div class="wrap">
+      <h2 class="h2 reveal" id="h-op">Guidance anyone can follow</h2>
+      <figure class="photo screens">
+        <div class="ph"><img src="img/app-screens.png" width="912" height="532" alt="Three screens of the KilnWise app: a daily summary with firing stability at 82%, the firing zone with the day's temperature chart and coal-feed log, and the live firing coach reading 1,004 °C in the perfect band."></div>
+        <figcaption>The app runs beside the kiln and talks to the unit over Bluetooth: the day's summary, the firing zone, and the live coach.</figcaption>
+      </figure>
+      <div class="points">
+        <div class="reveal"><h3>Built for low literacy</h3><p>One instruction per screen, large controls and flat navigation. Every instruction is also spoken in the operator's own language.</p></div>
+        <div class="reveal"><h3>Nothing to plug in</h3><p>Solar powered, with no grid and no internet. The unit lives beside the kiln through the firing season.</p></div>
+        <div class="reveal"><h3>The manual lever always wins</h3><p>The damper actuator fails open. Autonomy is earned in stages: watch, then advise, then act, each proven on that kiln first.</p></div>
+        <div class="reveal"><h3>The operator owns the data</h3><p>No worker surveillance. Only what coaching needs is recorded. The log becomes the owner's savings report and a verifiable record of firing practice for authorities.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec field-sand" id="letter" aria-labelledby="h-letter">
+    <div class="wrap">
+      <h2 class="h2 reveal" id="h-letter">A letter from the Minister</h2>
+      <figure class="letter reveal">
+        <blockquote>
+          <p class="quote-lead">“…many sound proposals are lost in the distance between a technical solution and a functioning public system.</p>
+          <p class="quote">Swastik, Vihaan and Rohan have treated that distance as part of the engineering problem.”</p>
+        </blockquote>
+        <figcaption><strong>Kanhaiya Lal</strong>, Minister for Public Health Engineering, Government of Rajasthan</figcaption>
+      </figure>
+      <h3 class="sub reveal">What the letter recognises</h3>
+      <ul class="recog">
+        <li class="reveal">Traditional kilns are fired by eye, and regulation has done little to change daily operation. The team identified the missing measurement as a central reason.</li>
+        <li class="reveal">KilnWise works with the kilns that already exist: the probe goes through the firing-zone wall and the actuator fits the existing damper.</li>
+        <li class="reveal">It is solar powered and needs no grid electricity or internet access.</li>
+        <li class="reveal">It is built for operators with limited literacy: one instruction at a time, spoken in their own language.</li>
+        <li class="reveal">Automation arrives in stages, each validated on the individual kiln, and the operator's manual control always overrides it.</li>
+        <li class="reveal">Every reading and action is recorded, so owners get a record of their savings and authorities a verifiable record of firing practice.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="solid sec" id="rollout" aria-labelledby="h-roll">
+    <div class="wrap">
+      <h2 class="h2 reveal" id="h-roll">From one kiln to a tender</h2>
+      <div class="timeline">
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <ol class="steps">
+          <li class="reveal"><h3>MoU with a programme owner</h3><p>No money changes hands. We get site access and a named counterpart; they get first data rights.</p></li>
+          <li class="reveal"><h3>Co-funded pilot, 25–50 kilns</h3><p>Inside the partner's existing programme district, across the 2026–27 firing season, designed like an experiment.</p></li>
+          <li class="reveal"><h3>Independent evaluation</h3><p>Measured by research partners rather than by us, so the data is theirs to trust, not ours to claim.</p></li>
+          <li class="reveal"><h3>Rate-contract and tender</h3><p>Procurement at $200 installed with $69 a year of service, deployed by the programme's own field teams.</p></li>
+        </ol>
+      </div>
+      <p class="season reveal">Kilns fire from about November to April. We install and train in the off-season, measure through the firing season, and tender with a season of data in hand.</p>
+    </div>
+  </section>
+
+  <section class="solid sec" id="team" aria-labelledby="h-team">
+    <div class="wrap">
+      <h2 class="h2 reveal" id="h-team">The team</h2>
+      <div class="team">
+        <article class="member reveal"><img src="img/team-vihaan.jpg" width="170" height="170" alt="Vihaan Choudhary"><h3>Vihaan Choudhary</h3><p class="role">Hardware and prototype development</p><p>Built and bench-validated the ESP32 sensing core at roughly 1,000 °C, and priced every component from receipts and live retail.</p></article>
+        <article class="member reveal"><img src="img/team-rohan.jpg" width="170" height="170" alt="Rohan Khandelwal"><h3>Rohan Khandelwal</h3><p class="role">Software: firing guidance and data logging</p><p>Designed the app for low-literacy operators, with one instruction per screen and voice guidance in the operator's language.</p></article>
+        <article class="member reveal"><img src="img/team-swastik.jpg" width="170" height="170" alt="Swastik Dash"><h3>Swastik Dash</h3><p class="role">Testing and implementation under real kiln conditions</p><p>Owns the evidence base: every figure is traced to a primary source or dropped.</p></article>
+      </div>
+      <figure class="team-quote reveal">
+        <blockquote><p>“I recommend Swastik Dash, Vihaan Choudhary and Rohan Khandelwal without reservation.”</p></blockquote>
+        <figcaption>Kanhaiya Lal, Minister for Public Health Engineering, Government of Rajasthan</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="solid foot-sources">
+    <div class="wrap">
+      <h2>Sources</h2>
+      <ul>
+        <li>Rajasthan kiln counts: <a href="https://www.greentribunal.gov.in/sites/default/files/news_updates/NGT%20OA%2067%20of%202022%20in%20order%2017.3.2023.pdf">CPCB interim progress report to the National Green Tribunal, O.A. 67 of 2022</a>, district table as on 17 July 2023.</li>
+        <li>Alwar's conversion: <a href="https://www.downtoearth.org.in/blog/pollution/green-signal-90-brick-kilns-in-alwar-adopted-clean-tech-94818">Down To Earth, 5 March 2024</a>.</li>
+        <li>Steady-feeding trial: Brooks et al. 2025, Science 388, eadr7394 (276 kilns, Bangladesh).</li>
+        <li>Kiln counts, workers and black carbon: World Bank, Eil et al. 2020, Dirty Stacks, High Stakes; Weyant et al. 2014; Bond et al. 2013; ACM COMPASS 2024 (arXiv:2406.10723).</li>
+        <li>NCR conversion and monitoring: Centre for Science and Environment survey of NCR kilns.</li>
+        <li>Endorsement: letter from Kanhaiya Lal, Minister for Public Health Engineering, Government of Rajasthan.</li>
+        <li>Photos via Wikimedia Commons, resized: <a href="https://commons.wikimedia.org/wiki/File:Air_pollution3.jpg">Janak Bhatta</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>); <a href="https://commons.wikimedia.org/wiki/File:Shaping_a_Day%E2%80%99s_Work.jpg">Sohelchy07</a> (<a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>); <a href="https://commons.wikimedia.org/wiki/File:Road_NH_11_to_Shekhawati-Brickworks_chimney-20131007.jpg">Daniel Villafruela</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>); <a href="https://commons.wikimedia.org/wiki/File:Brick_kiln_labourer.jpg">Kalbondi2k22</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>).</li>
+        <li>Smoke: a fluid simulation adapted from <a href="https://github.com/PavelDoGreat/WebGL-Fluid-Simulation">WebGL Fluid Simulation</a> by Pavel Dobryakov (MIT licence).</li>
+      </ul>
+      <p class="fine">Figures marked illustrative are not measured data. Component prices are receipted or taken from live Indian retail. The kiln in the background is an illustration.</p>
+    </div>
+  </div>
+  <div class="finale">
+    <div class="wrap">
+      <p class="giant" aria-hidden="true">KilnWise<span class="dot">.</span></p>
+      <p class="foot-tag">Firing smarter.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Kiln smoke: a real-time 2D fluid simulation (stable fluids on the GPU), adapted from
+   WebGL Fluid Simulation by Pavel Dobryakov, https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
+   MIT License, Copyright (c) 2017 Pavel Dobryakov. Permission is hereby granted, free of charge, to any
+   person obtaining a copy of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights to use, copy, modify,
+   merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to
+   whom the Software is furnished to do so, subject to the following conditions: The above copyright
+   notice and this permission notice shall be included in all copies or substantial portions of the
+   Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+   OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+   Changes: smoke emitted from chimney mouths, buoyancy and wind, soot and steam channels, a smoke
+   shader with self-shadowing and kiln underglow, edge sinks, transparent output. */
+function createKilnSmoke(canvas, opt) {
+  const small = Math.min(innerWidth, innerHeight) < 700;
+  const cfg = Object.assign({
+    SIM: small ? 96 : 128, DYE: small ? 384 : 512, PRESSURE: 0.8, ITER: small ? 14 : 20,
+    CURL: 5, VEL_DISS: 1.0, DEN_DISS: 0.3, BUOY: 9, WIND: 16, LIFT: 5, EMIT: 0.09, PUSH: 1, RAD: 2.0, GLOW: 0, SINK: 0.15, OPA: 2.8, SHADE: 0.08
+  }, opt || {});
+  const params = { alpha: true, depth: false, stencil: false, antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: false };
+  let gl = canvas.getContext('webgl2', params);
+  const isGL2 = !!gl;
+  if (!gl) gl = canvas.getContext('webgl', params) || canvas.getContext('experimental-webgl', params);
+  if (!gl) return null;
+  let halfFloat = null, linear = null;
+  if (isGL2) { gl.getExtension('EXT_color_buffer_float'); linear = gl.getExtension('OES_texture_float_linear'); }
+  else { halfFloat = gl.getExtension('OES_texture_half_float'); linear = gl.getExtension('OES_texture_half_float_linear'); }
+  const texType = isGL2 ? gl.HALF_FLOAT : (halfFloat && halfFloat.HALF_FLOAT_OES);
+  if (!texType) return null;
+
+  function supports(internal, format) {
+    const t = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, internal, 4, 4, 0, format, texType, null);
+    const f = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+    const ok = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+    gl.deleteFramebuffer(f); gl.deleteTexture(t);
+    return ok;
+  }
+  function fmt(internal, format) {
+    if (supports(internal, format)) return { internal, format };
+    if (isGL2 && internal === gl.R16F) return fmt(gl.RG16F, gl.RG);
+    if (isGL2 && internal === gl.RG16F) return fmt(gl.RGBA16F, gl.RGBA);
+    return null;
+  }
+  const RGBA = isGL2 ? fmt(gl.RGBA16F, gl.RGBA) : fmt(gl.RGBA, gl.RGBA);
+  const RG = isGL2 ? fmt(gl.RG16F, gl.RG) : fmt(gl.RGBA, gl.RGBA);
+  const R1 = isGL2 ? fmt(gl.R16F, gl.RED) : fmt(gl.RGBA, gl.RGBA);
+  if (!RGBA || !RG || !R1) return null;
+  const filtering = linear ? gl.LINEAR : gl.NEAREST;
+
+  function shader(type, src, defs) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, (defs || []).map((d) => '#define ' + d + '\n').join('') + src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  function program(vs, fsSrc, defs) {
+    const p = gl.createProgram();
+    gl.attachShader(p, vs); gl.attachShader(p, shader(gl.FRAGMENT_SHADER, fsSrc, defs));
+    gl.bindAttribLocation(p, 0, 'aPosition');
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {};
+    const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for (let i = 0; i < n; i++) { const name = gl.getActiveUniform(p, i).name; u[name] = gl.getUniformLocation(p, name); }
+    return { p, u, bind() { gl.useProgram(p); } };
+  }
+
+  const VS = shader(gl.VERTEX_SHADER, `
+    precision highp float;
+    attribute vec2 aPosition;
+    varying vec2 vUv, vL, vR, vT, vB;
+    uniform vec2 texelSize;
+    void main () {
+      vUv = aPosition * 0.5 + 0.5;
+      vL = vUv - vec2(texelSize.x, 0.0); vR = vUv + vec2(texelSize.x, 0.0);
+      vT = vUv + vec2(0.0, texelSize.y); vB = vUv - vec2(0.0, texelSize.y);
+      gl_Position = vec4(aPosition, 0.0, 1.0);
+    }`);
+
+  const clearP = program(VS, `
+    precision mediump float; precision mediump sampler2D;
+    varying highp vec2 vUv; uniform sampler2D uTexture; uniform float value;
+    void main () { gl_FragColor = value * texture2D(uTexture, vUv); }`);
+
+  const splatP = program(VS, `
+    precision highp float; precision highp sampler2D;
+    varying vec2 vUv; uniform sampler2D uTarget; uniform float aspectRatio; uniform vec4 color; uniform vec2 point; uniform float radius;
+    void main () {
+      vec2 p = vUv - point; p.x *= aspectRatio;
+      gl_FragColor = texture2D(uTarget, vUv) + color * exp(-dot(p, p) / radius);
+    }`);
+
+  const advectSrc = `
+    precision highp float; precision highp sampler2D;
+    varying vec2 vUv; uniform sampler2D uVelocity, uSource; uniform vec2 texelSize, dyeTexelSize;
+    uniform float dt, dissipation, edgeSink, wind;
+    vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
+      vec2 st = uv / tsize - 0.5; vec2 iuv = floor(st); vec2 fuv = fract(st);
+      vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize), b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
+      vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize), d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
+      return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
+    }
+    void main () {
+    #ifdef MANUAL_FILTERING
+      vec2 coord = vUv - dt * (bilerp(uVelocity, vUv, texelSize).xy + vec2(wind * (0.35 + 0.65 * vUv.y), 0.0)) * texelSize;
+      vec4 result = bilerp(uSource, coord, dyeTexelSize);
+    #else
+      vec2 coord = vUv - dt * (texture2D(uVelocity, vUv).xy + vec2(wind * (0.35 + 0.65 * vUv.y), 0.0)) * texelSize;
+      vec4 result = texture2D(uSource, coord);
+    #endif
+      float edge = smoothstep(0.0, 0.05, vUv.x) * smoothstep(0.0, 0.05, 1.0 - vUv.x) * smoothstep(0.0, 0.08, 1.0 - vUv.y);
+      gl_FragColor = result / (1.0 + dissipation * dt + edgeSink * (1.0 - edge));
+    }`;
+  const advectP = program(VS, advectSrc, linear ? [] : ['MANUAL_FILTERING']);
+
+  const divergenceP = program(VS, `
+    precision mediump float; precision mediump sampler2D;
+    varying highp vec2 vUv, vL, vR, vT, vB; uniform sampler2D uVelocity;
+    void main () {
+      float L = texture2D(uVelocity, vL).x, R = texture2D(uVelocity, vR).x;
+      float T = texture2D(uVelocity, vT).y, B = texture2D(uVelocity, vB).y;
+      vec2 C = texture2D(uVelocity, vUv).xy;
+      if (vL.x < 0.0) { L = C.x; } if (vR.x > 1.0) { R = C.x; }
+      if (vT.y > 1.0) { T = C.y; } if (vB.y < 0.0) { B = -C.y; }
+      gl_FragColor = vec4(0.5 * (R - L + T - B), 0.0, 0.0, 1.0);
+    }`);
+
+  const curlP = program(VS, `
+    precision mediump float; precision mediump sampler2D;
+    varying highp vec2 vUv, vL, vR, vT, vB; uniform sampler2D uVelocity;
+    void main () {
+      float L = texture2D(uVelocity, vL).y, R = texture2D(uVelocity, vR).y;
+      float T = texture2D(uVelocity, vT).x, B = texture2D(uVelocity, vB).x;
+      gl_FragColor = vec4(0.5 * (R - L - T + B), 0.0, 0.0, 1.0);
+    }`);
+
+  const vorticityP = program(VS, `
+    precision highp float; precision highp sampler2D;
+    varying vec2 vUv, vL, vR, vT, vB; uniform sampler2D uVelocity, uCurl; uniform float curl, dt;
+    void main () {
+      float L = texture2D(uCurl, vL).x, R = texture2D(uCurl, vR).x, T = texture2D(uCurl, vT).x, B = texture2D(uCurl, vB).x;
+      float C = texture2D(uCurl, vUv).x;
+      vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
+      force /= length(force) + 0.0001; force *= curl * C; force.y *= -1.0;
+      vec2 v = texture2D(uVelocity, vUv).xy + force * dt;
+      gl_FragColor = vec4(clamp(v, -1000.0, 1000.0), 0.0, 1.0);
+    }`);
+
+  const pressureP = program(VS, `
+    precision mediump float; precision mediump sampler2D;
+    varying highp vec2 vUv, vL, vR, vT, vB; uniform sampler2D uPressure, uDivergence;
+    void main () {
+      float L = texture2D(uPressure, vL).x, R = texture2D(uPressure, vR).x, T = texture2D(uPressure, vT).x, B = texture2D(uPressure, vB).x;
+      if (vL.x < 0.0) { L = 0.0; } if (vR.x > 1.0) { R = 0.0; } if (vT.y > 1.0) { T = 0.0; }
+      gl_FragColor = vec4((L + R + B + T - texture2D(uDivergence, vUv).x) * 0.25, 0.0, 0.0, 1.0);
+    }`);
+
+  const gradientP = program(VS, `
+    precision mediump float; precision mediump sampler2D;
+    varying highp vec2 vUv, vL, vR, vT, vB; uniform sampler2D uPressure, uVelocity;
+    void main () {
+      float L = texture2D(uPressure, vL).x, R = texture2D(uPressure, vR).x, T = texture2D(uPressure, vT).x, B = texture2D(uPressure, vB).x;
+      if (vL.x < 0.0) { L = 0.0; } if (vR.x > 1.0) { R = 0.0; } if (vT.y > 1.0) { T = 0.0; }
+      vec2 v = texture2D(uVelocity, vUv).xy - vec2(R - L, T - B);
+      gl_FragColor = vec4(v, 0.0, 1.0);
+    }`);
+
+  // Hot smoke rises; wind bends the plume harder the higher it gets.
+  const buoyP = program(VS, `
+    precision highp float; precision highp sampler2D;
+    varying vec2 vUv; uniform sampler2D uVelocity, uDye; uniform float dt, buoyancy;
+    void main () {
+      vec2 v = texture2D(uVelocity, vUv).xy;
+      vec4 d = texture2D(uDye, vUv);
+      float dens = d.r + 0.8 * d.g;
+      v.y += dt * buoyancy * dens;
+      gl_FragColor = vec4(v, 0.0, 1.0);
+    }`);
+
+  // Soot (r) and steam (g) drawn with self-shadowing, lit from the sky and warmed by the kiln below.
+  const displayP = program(VS, `
+    precision highp float; precision highp sampler2D;
+    varying vec2 vUv, vL, vR, vT, vB; uniform sampler2D uDye; uniform vec2 mouth; uniform float aspectRatio, glowAmt, opa, cfg_shade;
+    float D (vec2 uv) { vec4 d = texture2D(uDye, uv); return max(d.r, 0.0) * opa + max(d.g, 0.0) * 0.9; }
+    void main () {
+      vec4 d = texture2D(uDye, vUv);
+      float soot = max(d.r, 0.0), steam = max(d.g, 0.0);
+      float dens = soot * opa + steam * 0.9;
+      float a = 1.0 - exp(-dens);
+      if (a < 0.002) { gl_FragColor = vec4(0.0); return; }
+      vec3 n = normalize(vec3(D(vL) - D(vR), D(vB) - D(vT), 0.5));
+      float lit = clamp(0.8 + cfg_shade * dot(n, normalize(vec3(-0.5, 0.7, 0.55))), 0.5, 1.15);
+      vec3 sootCol = mix(vec3(0.25, 0.23, 0.22), vec3(0.035, 0.03, 0.028), smoothstep(0.04, 0.55, soot));
+      vec3 steamCol = vec3(0.6, 0.58, 0.56);
+      vec3 col = (sootCol * soot * opa + steamCol * steam * 0.9) / max(dens, 1e-4) * lit;
+      vec2 p = vUv - mouth - vec2(0.0, 0.02); p.x *= aspectRatio;
+      float glow = exp(-dot(p, p) / 0.0022) * glowAmt;
+      col = mix(col, col * vec3(1.85, 1.0, 0.55) + vec3(0.10, 0.035, 0.0), glow);
+      gl_FragColor = vec4(col * a, a);
+    }`);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
+  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(0);
+  function blit(target) {
+    if (target) { gl.viewport(0, 0, target.w, target.h); gl.bindFramebuffer(gl.FRAMEBUFFER, target.fbo); }
+    else { gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight); gl.bindFramebuffer(gl.FRAMEBUFFER, null); }
+    gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+  }
+  function fbo(w, h, f, param) {
+    gl.activeTexture(gl.TEXTURE0);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, f.internal, w, h, 0, f.format, texType, null);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.viewport(0, 0, w, h); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    return { tex, fbo: fb, w, h, tx: 1 / w, ty: 1 / h, attach(id) { gl.activeTexture(gl.TEXTURE0 + id); gl.bindTexture(gl.TEXTURE_2D, tex); return id; }, free() { gl.deleteTexture(tex); gl.deleteFramebuffer(fb); } };
+  }
+  function dbl(w, h, f, param) {
+    let a = fbo(w, h, f, param), b = fbo(w, h, f, param);
+    return { w, h, tx: 1 / w, ty: 1 / h, get read() { return a; }, get write() { return b; }, swap() { const t = a; a = b; b = t; }, free() { a.free(); b.free(); } };
+  }
+  function res(r) {
+    let ar = gl.drawingBufferWidth / gl.drawingBufferHeight; if (ar < 1) ar = 1 / ar;
+    const min = Math.round(r), max = Math.round(r * ar);
+    return gl.drawingBufferWidth > gl.drawingBufferHeight ? { w: max, h: min } : { w: min, h: max };
+  }
+
+  let dye, vel, divg, curlT, pres;
+  function initFBOs() {
+    [dye, vel, divg, curlT, pres].forEach((x) => x && x.free());
+    const s = res(cfg.SIM), d = res(cfg.DYE);
+    gl.disable(gl.BLEND);
+    dye = dbl(d.w, d.h, RGBA, filtering);
+    vel = dbl(s.w, s.h, RG, filtering);
+    divg = fbo(s.w, s.h, R1, gl.NEAREST);
+    curlT = fbo(s.w, s.h, R1, gl.NEAREST);
+    pres = dbl(s.w, s.h, R1, gl.NEAREST);
+  }
+  const scale = Math.min(1.5, window.devicePixelRatio || 1);
+  function resize() {
+    const w = Math.max(2, Math.floor(canvas.clientWidth * scale)), h = Math.max(2, Math.floor(canvas.clientHeight * scale));
+    if (canvas.width !== w || Math.abs(canvas.height - h) > h * 0.15) { canvas.width = w; canvas.height = h; initFBOs(); return true; }
+    return false;
+  }
+  resize(); if (!dye) initFBOs();
+
+  function splat(target, x, y, c, radius) {
+    splatP.bind();
+    gl.uniform1i(splatP.u.uTarget, target.read.attach(0));
+    gl.uniform1f(splatP.u.aspectRatio, canvas.width / canvas.height);
+    gl.uniform2f(splatP.u.point, x, y);
+    gl.uniform4f(splatP.u.color, c[0], c[1], c[2], c[3]);
+    gl.uniform1f(splatP.u.radius, radius);
+    blit(target.write); target.swap();
+  }
+
+  function step(dt) {
+    gl.disable(gl.BLEND);
+    buoyP.bind();
+    gl.uniform2f(buoyP.u.texelSize, vel.tx, vel.ty);
+    gl.uniform1i(buoyP.u.uVelocity, vel.read.attach(0));
+    gl.uniform1i(buoyP.u.uDye, dye.read.attach(1));
+    gl.uniform1f(buoyP.u.dt, dt); gl.uniform1f(buoyP.u.buoyancy, cfg.BUOY);
+    blit(vel.write); vel.swap();
+
+    curlP.bind();
+    gl.uniform2f(curlP.u.texelSize, vel.tx, vel.ty);
+    gl.uniform1i(curlP.u.uVelocity, vel.read.attach(0));
+    blit(curlT);
+
+    vorticityP.bind();
+    gl.uniform2f(vorticityP.u.texelSize, vel.tx, vel.ty);
+    gl.uniform1i(vorticityP.u.uVelocity, vel.read.attach(0));
+    gl.uniform1i(vorticityP.u.uCurl, curlT.attach(1));
+    gl.uniform1f(vorticityP.u.curl, cfg.CURL); gl.uniform1f(vorticityP.u.dt, dt);
+    blit(vel.write); vel.swap();
+
+    divergenceP.bind();
+    gl.uniform2f(divergenceP.u.texelSize, vel.tx, vel.ty);
+    gl.uniform1i(divergenceP.u.uVelocity, vel.read.attach(0));
+    blit(divg);
+
+    clearP.bind();
+    gl.uniform1i(clearP.u.uTexture, pres.read.attach(0));
+    gl.uniform1f(clearP.u.value, cfg.PRESSURE);
+    blit(pres.write); pres.swap();
+
+    pressureP.bind();
+    gl.uniform2f(pressureP.u.texelSize, vel.tx, vel.ty);
+    gl.uniform1i(pressureP.u.uDivergence, divg.attach(0));
+    for (let i = 0; i < cfg.ITER; i++) { gl.uniform1i(pressureP.u.uPressure, pres.read.attach(1)); blit(pres.write); pres.swap(); }
+
+    gradientP.bind();
+    gl.uniform2f(gradientP.u.texelSize, vel.tx, vel.ty);
+    gl.uniform1i(gradientP.u.uPressure, pres.read.attach(0));
+    gl.uniform1i(gradientP.u.uVelocity, vel.read.attach(1));
+    blit(vel.write); vel.swap();
+
+    advectP.bind();
+    gl.uniform2f(advectP.u.texelSize, vel.tx, vel.ty);
+    if (!linear) gl.uniform2f(advectP.u.dyeTexelSize, vel.tx, vel.ty);
+    let vid = vel.read.attach(0);
+    gl.uniform1i(advectP.u.uVelocity, vid); gl.uniform1i(advectP.u.uSource, vid);
+    gl.uniform1f(advectP.u.dt, dt); gl.uniform1f(advectP.u.dissipation, cfg.VEL_DISS); gl.uniform1f(advectP.u.edgeSink, 0); gl.uniform1f(advectP.u.wind, cfg.WIND);
+    blit(vel.write); vel.swap();
+
+    if (!linear) gl.uniform2f(advectP.u.dyeTexelSize, dye.tx, dye.ty);
+    gl.uniform1i(advectP.u.uVelocity, vel.read.attach(0));
+    gl.uniform1i(advectP.u.uSource, dye.read.attach(1));
+    gl.uniform1f(advectP.u.dissipation, cfg.DEN_DISS); gl.uniform1f(advectP.u.edgeSink, cfg.SINK);
+    blit(dye.write); dye.swap();
+  }
+
+  let sources = [], dirt = 1, t = 0;
+  function emit(dt) {
+    const ar = canvas.width / canvas.height, k = dt * 60;
+    for (const s of sources) {
+      const puff = 0.88 + 0.12 * Math.sin(t * 1.7 + s.ph) + 0.06 * Math.sin(t * 4.9 + s.ph * 1.7) + 0.04 * (Math.random() - 0.5);
+      const jx = (Math.random() - 0.5) * s.r * 0.5 / ar;
+      const rad = s.r * s.r * cfg.RAD;
+      splat(vel, s.x + jx, s.y + s.r * 0.4, [(Math.random() - 0.5) * 30 * s.k * cfg.PUSH * k, cfg.LIFT * s.k * cfg.PUSH * k * (0.8 + 0.4 * puff), 0, 0], rad);
+      const m = cfg.EMIT * s.k * puff * k * (0.25 + 0.75 * dirt);
+      splat(dye, s.x + jx, s.y + s.r * 0.4, [m * dirt, m * 1.1 * (1 - dirt), 0, 0], rad * (0.75 + 0.25 * dirt));
+    }
+  }
+  function render() {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); gl.enable(gl.BLEND);
+    displayP.bind();
+    gl.uniform2f(displayP.u.texelSize, 1 / dye.w, 1 / dye.h);
+    gl.uniform1i(displayP.u.uDye, dye.read.attach(0));
+    const s0 = sources[0];
+    gl.uniform2f(displayP.u.mouth, s0 ? s0.x : -1, s0 ? s0.y : -1);
+    gl.uniform1f(displayP.u.aspectRatio, canvas.width / canvas.height);
+    gl.uniform1f(displayP.u.glowAmt, cfg.GLOW * (0.35 + 0.65 * dirt));
+    gl.uniform1f(displayP.u.opa, cfg.OPA); gl.uniform1f(displayP.u.cfg_shade, cfg.SHADE);
+    blit(null);
+  }
+  function advance(dt, draw) {
+    t += dt;
+    gl.disable(gl.BLEND);
+    emit(dt);
+    step(dt);
+    if (draw) render();
+  }
+  function clear() { initFBOs(); }
+  return {
+    gl, cfg,
+    setSources(list) { sources = list; },
+    setDirt(v) { dirt = Math.max(0, Math.min(1, v)); },
+    resize, advance, render, clear
+  };
+}
+</script>
+<script>
+(() => {
+  const doc = document, root = doc.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- smoke: a fluid simulation rising from the chimney; how dirty it is follows the story ----
+  const smoke = (() => {
+    const scene = doc.querySelector('.scene');
+    const canvas = scene && scene.querySelector('canvas');
+    if (!canvas || typeof createKilnSmoke !== 'function') return null;
+    let S = null;
+    try { S = createKilnSmoke(canvas); } catch (e) { S = null; }
+    if (!S) return null;
+    const turn = doc.querySelector('.interlude');
+    const sun = doc.getElementById('sun-lit');
+    const mouths = [['m0', 1, 0]].map(([id, k, ph]) => ({ el: doc.getElementById(id), k, ph })).filter((m) => m.el);
+    let d = 1, dT = 1, running = false, raf = 0, last = 0, warm = 0, stoppedAt = 0;
+    function measure() {
+      const cr = canvas.getBoundingClientRect(), W = cr.width || 1, H = cr.height || 1;
+      S.setSources(mouths.map((m) => {
+        const r = m.el.getBoundingClientRect();
+        return { x: (r.left + r.width / 2 - cr.left) / W, y: 1 - (r.top - cr.top) / H, r: Math.max(2, r.width / 2) / H, k: m.k, ph: m.ph };
+      }).filter((src) => src.x > -0.05 && src.x < 1.05));
+    }
+    function target() {
+      if (!turn) return 1;
+      const r = turn.getBoundingClientRect(), vh = window.innerHeight;
+      const q = Math.min(1, Math.max(0, (vh * .6 - r.top) / Math.max(1, r.height - vh * .2)));
+      return 1 - .85 * q;
+    }
+    const tint = () => { if (sun) sun.setAttribute('opacity', ((1 - d) * .8).toFixed(3)); };
+    function frame(now) {
+      const dt = Math.min(1 / 60, Math.max(1 / 240, (now - last) / 1000 || 1 / 60)); last = now;
+      if (S.resize()) measure();
+      d += (dT - d) * Math.min(1, dt * 2.5); S.setDirt(d);
+      if (warm > 0) { const n = Math.min(warm, 20); for (let i = 0; i < n; i++) S.advance(1 / 60, false); warm -= n; }
+      S.advance(dt, true); tint();
+      raf = running ? requestAnimationFrame(frame) : 0;
+    }
+    function still() { d = dT; S.setDirt(d); S.clear(); for (let i = 0; i < 240; i++) S.advance(1 / 60, false); S.render(); tint(); }
+    function start() {
+      if (running) return;
+      if (stoppedAt && performance.now() - stoppedAt > 4000) { d = dT; S.clear(); warm = 240; }
+      running = true; last = performance.now(); raf = requestAnimationFrame(frame);
+    }
+    function stop() { if (running) stoppedAt = performance.now(); running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+    const shown = new Set();
+    function refresh() {
+      const show = shown.size > 0 && !doc.hidden;
+      if (reduce) { if (show) still(); return; }
+      if (show) start(); else stop();
+    }
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => {
+        for (const e of es) { if (e.isIntersecting) shown.add(e.target); else shown.delete(e.target); }
+        refresh();
+      });
+      doc.querySelectorAll('.hero, .interlude, .finale').forEach((w) => io.observe(w));
+    } else { shown.add(doc.body); }
+    doc.addEventListener('visibilitychange', refresh);
+    let rz = 0;
+    window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { S.resize(); measure(); if (reduce) still(); }, 150); });
+    measure();
+    dT = d = target(); S.setDirt(d); warm = 240;
+    refresh();
+    return { aim() { dT = target(); } };
+  })();
+
+  // ---- header: clear over the kiln, solid once you scroll; the bricks light with progress ----
+  const top = doc.querySelector('.top');
+  const bricks = [...doc.querySelectorAll('.progress i')];
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const y = window.scrollY, max = root.scrollHeight - window.innerHeight;
+    top.classList.toggle('at-top', y < 8);
+    const n = Math.max(1, Math.round((max > 0 ? y / max : 0) * bricks.length));
+    bricks.forEach((b, i) => b.classList.toggle('on', i < n));
+    if (smoke) smoke.aim();
+  }
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+
+  // ---- chart tooltips: hover and keyboard focus show the same text ----
+  const chart = doc.querySelector('.chart');
+  const tip = doc.getElementById('chart-tip');
+  if (chart && tip) {
+    const place = (seg, x, y) => {
+      tip.textContent = seg.dataset.tip;
+      tip.hidden = false;
+      const cr = chart.getBoundingClientRect();
+      const w = tip.offsetWidth, h = tip.offsetHeight;
+      let left = x - cr.left + 14, topY = y - cr.top - h - 12;
+      if (left + w > cr.width - 8) left = cr.width - w - 8;
+      if (topY < 8) topY = y - cr.top + 18;
+      tip.style.transform = 'translate(' + Math.max(8, left) + 'px,' + topY + 'px)';
+    };
+    const hide = () => { tip.hidden = true; };
+    chart.querySelectorAll('.seg').forEach((seg) => {
+      seg.addEventListener('pointerenter', (e) => place(seg, e.clientX, e.clientY));
+      seg.addEventListener('pointermove', (e) => place(seg, e.clientX, e.clientY));
+      seg.addEventListener('pointerleave', hide);
+      seg.addEventListener('focus', () => { const r = seg.getBoundingClientRect(); place(seg, r.left + r.width / 2, r.top); });
+      seg.addEventListener('blur', hide);
+    });
+  }
+})();
+</script>
+</body>
+</html>
